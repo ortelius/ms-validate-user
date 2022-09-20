@@ -27,7 +27,7 @@ component: ms-validate-user;deploy;v10_0_0_68_g6b08a2a
 dockerrepo: quay.io/ortelius/ms-validate-user
 dockersha: 9d17b931bca9
 dockertag: deploy-v10.0.0.68-g6b08a2a
-dropzone: /tmp/tdm.1756.9
+dropzone: /tmp/tdm.1757.9
 environment: aks-cluster
 gitcommit: 6b08a2a
 gitrepo: ortelius/ortelius-ms-validate-user
