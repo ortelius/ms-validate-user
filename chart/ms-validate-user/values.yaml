@@ -36,3 +36,7 @@ giturl: https://github.com/ortelius/ortelius-ms-validate-user.git
 kubectl_context: cluster2-aks-admin
 server_hostname: localhost
 server_name: localhost
+image:
+  repository: quay.io/ortelius/ms-validate-user
+  tag: main-v10.0.3-g5f02e0
+  sha: sha256:168aa081b7baa6b46b411bf93d175391d7bb9046628966c98005753097248e9f
