@@ -63,11 +63,4 @@ spec:
           ports:
             - name: http
               containerPort: 80
-          volumeMounts:
-            - name: jwt-volume
-              mountPath: /app/keys
-      volumes:
-        - name: jwt-volume
-          secret:
-            secretName: jwtkeys  
 ---   
