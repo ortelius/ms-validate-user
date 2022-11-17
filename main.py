@@ -12,17 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import base64
+import logging
 import os
+from time import sleep
 from typing import List, Optional
 
 import jwt
 import psycopg2
-from sqlalchemy import create_engine
-from fastapi import FastAPI, Query, Request, Response, HTTPException, status
+import uvicorn
+from fastapi import FastAPI, HTTPException, Query, Request, Response, status
 from pydantic import BaseModel
+from sqlalchemy import create_engine
 from sqlalchemy.exc import InterfaceError, OperationalError, StatementError
-from time import sleep
-import logging
 
 # Init Globals
 service_name = 'ortelius-ms-validate-user'
@@ -38,10 +40,12 @@ db_user = os.getenv("DB_USER", "postgres")
 db_pass = os.getenv("DB_PASS", "postgres")
 db_port = os.getenv("DB_PORT", "5432")
 id_rsa_pub = os.getenv("RSA_FILE", "/app/keys/id_rsa.pub")
-public_key = open(id_rsa_pub, 'r').read()
+
+public_key = ''
+if (os.path.exists(id_rsa_pub)):
+    public_key = open(id_rsa_pub, 'r').read()
 
 engine = create_engine("postgresql+psycopg2://" + db_user + ":" + db_pass + "@" + db_host + ":" + db_port + "/" + db_name, pool_pre_ping=True)
-
 
 class StatusMsg(BaseModel):
     status: str
@@ -129,21 +133,6 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
     userid = -1                                # init userid to -1
     uuid = ''                                  # init uuid to blank
 
-    token = request.cookies.get('token', None)  # get the login token from the cookies
-    print(token)
-    if (token is None):                        # no token the fail
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization Failed")
-    try:
-        decoded = jwt.decode(token, public_key, algorithms=["RS256"])  # decypt token
-        userid = decoded.get('sub', None)           # get userid from token
-        uuid = decoded.get('jti', None)             # get uuid from token
-        if (userid is None):                        # no userid fail
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid userid")
-        if (uuid is None):                          # no uuid fail
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid login token")
-    except jwt.InvalidTokenError as err:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(err)) from None
-
     try:
         #Retry logic for failed query
         no_of_retry = db_conn_retry
@@ -153,7 +142,34 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
                 with engine.connect() as connection:
                     conn = connection.connection
                     authorized = False      # init to not authorized
-        
+
+                    if (not os.path.exists(id_rsa_pub)):
+                        try:
+                            cursor = conn.cursor() 
+                            cursor.execute("select bootstrap from dm.dm_tableinfo limit 1") 
+                            row = cursor.fetchone()
+                            while row:
+                                public_key = base64.b64decode(row[0])
+                                row = cursor.fetchone()
+                            cursor.close()  
+                        except Exception as err:
+                            print(str(err))
+
+                    token = request.cookies.get('token', None)  # get the login token from the cookies
+                    print(token)
+                    if (token is None):                        # no token the fail
+                        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization Failed")
+                    try:
+                        decoded = jwt.decode(token, public_key, algorithms=["RS256"])  # decypt token
+                        userid = decoded.get('sub', None)           # get userid from token
+                        uuid = decoded.get('jti', None)             # get uuid from token
+                        if (userid is None):                        # no userid fail
+                            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid userid")
+                        if (uuid is None):                          # no uuid fail
+                            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid login token")
+                    except jwt.InvalidTokenError as err:
+                        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(err)) from None
+
                     csql = "DELETE from dm.dm_user_auth where lastseen < current_timestamp at time zone 'UTC' - interval '1 hours'"  # remove stale logins
                     sql = "select count(*) from dm.dm_user_auth where id = (%s) and jti = (%s)"  # see if the user id authorized
         
@@ -253,3 +269,6 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
     except Exception as err:
         print(str(err))
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(err)) from None
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=5000)
