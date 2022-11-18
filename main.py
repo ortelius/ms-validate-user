@@ -132,6 +132,7 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
     result = []                                # init result to be empty
     userid = -1                                # init userid to -1
     uuid = ''                                  # init uuid to blank
+    global public_key                          # allow update of global var
 
     try:
         #Retry logic for failed query
