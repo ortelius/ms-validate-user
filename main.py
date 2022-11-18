@@ -150,7 +150,7 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
                             cursor.execute("select bootstrap from dm.dm_tableinfo limit 1") 
                             row = cursor.fetchone()
                             while row:
-                                public_key = base64.b64decode(row[0])
+                                public_key = base64.b64decode(row[0]).decode("utf-8")
                                 row = cursor.fetchone()
                             cursor.close()  
                         except Exception as err:
