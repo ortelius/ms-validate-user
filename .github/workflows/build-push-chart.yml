@@ -99,3 +99,4 @@ jobs:
           workflow: generate-main-chart.yml
           repo: ortelius/ortelius-charts
           token: ${{ secrets.HELM_INDEXER_TOKEN }}
+
