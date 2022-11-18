@@ -158,6 +158,7 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
 
                     token = request.cookies.get('token', None)  # get the login token from the cookies
                     print(token)
+                    print(public_key)
                     if (token is None):                        # no token the fail
                         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization Failed")
                     try:
