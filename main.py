@@ -31,8 +31,10 @@ service_name = 'ortelius-ms-validate-user'
 db_conn_retry = 3
 
 # Init FastAPI
-app = FastAPI()
-
+app = FastAPI(
+    title=service_name,
+    description=service_name
+)
 # Init db connection
 db_host = os.getenv("DB_HOST", "localhost")
 db_name = os.getenv("DB_NAME", "postgres")
@@ -47,32 +49,14 @@ if (os.path.exists(id_rsa_pub)):
 
 engine = create_engine("postgresql+psycopg2://" + db_user + ":" + db_pass + "@" + db_host + ":" + db_port + "/" + db_name, pool_pre_ping=True)
 
+# health check endpoint
 class StatusMsg(BaseModel):
     status: str
     service_name: Optional[str] = None
 
 
-@app.get("/health",
-         responses={
-             503: {"model": StatusMsg,
-                   "description": "DOWN Status for the Service",
-                   "content": {
-                       "application/json": {
-                           "example": {"status": 'DOWN'}
-                       },
-                   },
-                   },
-             200: {"model": StatusMsg,
-                   "description": "UP Status for the Service",
-                   "content": {
-                       "application/json": {
-                           "example": {"status": 'UP', "service_name": service_name}
-                       }
-                   },
-                   },
-         }
-         )
-async def health(response: Response):
+@app.get("/health")
+async def health(response: Response) -> StatusMsg:
     try:
         with engine.connect() as connection:
             conn = connection.connection
@@ -87,10 +71,9 @@ async def health(response: Response):
         print(str(err))
         response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
         return {"status": 'DOWN'}
+# end health check
 
 # validate user endpoint
-
-
 class Message(BaseModel):
     detail: str
 
@@ -99,36 +82,8 @@ class DomainList(BaseModel):
     domains: List[int] = list()
 
 
-@app.get('/msapi/validateuser',
-         response_model=DomainList,
-         responses={
-             401: {"model": Message,
-                   "description": "Authorization Status",
-                   "content": {
-                       "application/json": {
-                           "example": {"detail": "Authorization failed"}
-                       },
-                   },
-                   },
-             500: {"model": Message,
-                   "description": "SQL Error",
-                   "content": {
-                       "application/json": {
-                           "example": {"detail": "SQL Error: 30x"}
-                       },
-                   },
-                   },
-             200: {
-                 "description": "List of domain ids the user belongs to.",
-                 "content": {
-                     "application/json": {
-                         "example": [1, 200, 201, 5033]
-                     }
-                 },
-             },
-         }
-         )
-async def validateuser(request: Request, domains: Optional[str] = Query(None, regex="^[y|Y|n|N]$")):
+@app.get('/msapi/validateuser')
+async def validateuser(request: Request, domains: Optional[str] = Query(None, regex="^[y|Y|n|N]$")) -> DomainList:
     result = []                                # init result to be empty
     userid = -1                                # init userid to -1
     uuid = ''                                  # init uuid to blank
