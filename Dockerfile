@@ -61,7 +61,7 @@ RUN echo "monty:x:1000:1001::/home/monty:" >> /etc/passwd
 
 # quick validation that python still works whilst we have a shell
 RUN python --version
-RUN rm /bin/sh /bin/echo /bin/rm
+RUN rm /bin/echo /bin/rm
 
 ## --------------------------- standardise execution env ----------------------------- ##
 
