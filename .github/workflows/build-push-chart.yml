@@ -62,7 +62,7 @@ jobs:
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
-          
+
       - name: Update Values and Chart
         id: chart
         run: |
