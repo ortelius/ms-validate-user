@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths-ignore:
-      - "chart/**"
+      - "chart/ms-validate-user/Chart.yaml"
+      - "chart/ms-validate-user/values.yaml"
 jobs:
   release:
     runs-on: ubuntu-latest
