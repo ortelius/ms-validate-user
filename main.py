@@ -23,7 +23,7 @@ import psycopg2
 import uvicorn
 from fastapi import FastAPI, HTTPException, Query, Request, Response, status
 from pydantic import BaseModel
-from sqlalchemy import create_engine
+from sqlalchemy import sql, create_engine
 from sqlalchemy.exc import InterfaceError, OperationalError, StatementError
 
 # Init Globals
@@ -128,16 +128,16 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
                         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(err)) from None
 
                     csql = "DELETE from dm.dm_user_auth where lastseen < current_timestamp at time zone 'UTC' - interval '1 hours'"  # remove stale logins
-                    sql = "select count(*) from dm.dm_user_auth where id = (%s) and jti = (%s)"  # see if the user id authorized
+                    sqlstmt = "select count(*) from dm.dm_user_auth where id = (%s) and jti = (%s)"  # see if the user id authorized
 
                     cursor = conn.cursor()  # init cursor
-                    cursor.execute(csql)   # exec delete query
+                    cursor.execute(sql.text(csql))   # exec delete query
                     cursor.close()         # close the cursor so don't have a connection leak
                     conn.commit()          # commit the delete and free up lock
 
                     params = tuple([userid, uuid])   # setup parameters to count(*) query
                     cursor = conn.cursor()      # init cursor
-                    cursor.execute(sql, params)  # run the query
+                    cursor.execute(sql.text(sqlstmt), params)  # run the query
 
                     row = cursor.fetchone()     # fetch a row
                     rowcnt = 0                  # init counter
@@ -151,7 +151,7 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
                         usql = "update dm.dm_user_auth set lastseen = current_timestamp at time zone 'UTC' where id = (%s) and jti = (%s)"  # sql to update the last seen timestamp
                         params = tuple([userid, uuid])       # setup parameters to update query
                         cursor = conn.cursor()          # init cursor
-                        cursor.execute(usql, params)    # run the query
+                        cursor.execute(sql.text(usql), params)    # run the query
                         cursor.close()                  # close the cursor so don't have a connection leak
                         conn.commit()                   # commit the update and free up lock
 
@@ -161,17 +161,17 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
 
                     if (domains is not None and domains.lower() == 'y'):    # get the list of domains for the user if domains=Y
                         domainid = -1
-                        sql = "SELECT domainid FROM dm.dm_user WHERE id = (%s)"
+                        sqlstmt = "SELECT domainid FROM dm.dm_user WHERE id = (%s)"
                         cursor = conn.cursor()  # init cursor
                         params = tuple([userid])
-                        cursor.execute(sql, params)
+                        cursor.execute(sql.text(sqlstmt), params)
                         row = cursor.fetchone()
                         while row:
                             domainid = row[0]
                             row = cursor.fetchone()
                         cursor.close()
 
-                        sql = """WITH RECURSIVE parents AS
+                        sqlstmt = """WITH RECURSIVE parents AS
                                     (SELECT
                                             id              AS id,
                                             ARRAY [id]      AS ancestry,
@@ -197,7 +197,7 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
 
                         cursor = conn.cursor()  # init cursor
                         params = tuple([domainid, domainid])
-                        cursor.execute(sql, params)
+                        cursor.execute(sql.text(sqlstmt), params)
                         row = cursor.fetchone()
                         while row:
                             result = row[0]
