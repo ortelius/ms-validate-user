@@ -1,5 +1,5 @@
 replicaCount: 1
 image:
   repository: quay.io/ortelius/ms-validate-user
-  tag: main-v10.0.24-gc66963
-  sha: sha256:dae0fb1a7b308c39accd6457d315ece574ab3b268e528308e6d80d1ab6b51654
+  tag: main-v10.0.25-g9d59bd
+  sha: sha256:f171dc038d921cbfd70d9e6aac7a3c965927f3b78495795c15e440262f7fe9d8
