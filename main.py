@@ -131,13 +131,13 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
                     sqlstmt = "select count(*) from dm.dm_user_auth where id = (%s) and jti = (%s)"  # see if the user id authorized
 
                     cursor = conn.cursor()  # init cursor
-                    cursor.execute(sql.text(csql))   # exec delete query
+                    cursor.execute(csql)   # exec delete query
                     cursor.close()         # close the cursor so don't have a connection leak
                     conn.commit()          # commit the delete and free up lock
 
                     params = tuple([userid, uuid])   # setup parameters to count(*) query
                     cursor = conn.cursor()      # init cursor
-                    cursor.execute(sql.text(sqlstmt), params)  # run the query
+                    cursor.execute(sqlstmt, params)  # run the query
 
                     row = cursor.fetchone()     # fetch a row
                     rowcnt = 0                  # init counter
@@ -151,7 +151,7 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
                         usql = "update dm.dm_user_auth set lastseen = current_timestamp at time zone 'UTC' where id = (%s) and jti = (%s)"  # sql to update the last seen timestamp
                         params = tuple([userid, uuid])       # setup parameters to update query
                         cursor = conn.cursor()          # init cursor
-                        cursor.execute(sql.text(usql), params)    # run the query
+                        cursor.execute(usql, params)    # run the query
                         cursor.close()                  # close the cursor so don't have a connection leak
                         conn.commit()                   # commit the update and free up lock
 
@@ -164,7 +164,7 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
                         sqlstmt = "SELECT domainid FROM dm.dm_user WHERE id = (%s)"
                         cursor = conn.cursor()  # init cursor
                         params = tuple([userid])
-                        cursor.execute(sql.text(sqlstmt), params)
+                        cursor.execute(sqlstmt, params)
                         row = cursor.fetchone()
                         while row:
                             domainid = row[0]
@@ -197,7 +197,7 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
 
                         cursor = conn.cursor()  # init cursor
                         params = tuple([domainid, domainid])
-                        cursor.execute(sql.text(sqlstmt), params)
+                        cursor.execute(sqlstmt, params)
                         row = cursor.fetchone()
                         while row:
                             result = row[0]
