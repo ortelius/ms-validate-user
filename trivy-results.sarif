@@ -8,11 +8,94 @@
           "fullName": "Trivy Vulnerability Scanner",
           "informationUri": "https://github.com/aquasecurity/trivy",
           "name": "Trivy",
-          "rules": [],
+          "rules": [
+            {
+              "id": "CVE-2023-0464",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "A security vulnerability has been identified in all supported versions ..."
+              },
+              "fullDescription": {
+                "text": "A security vulnerability has been identified in all supported versions of OpenSSL related to the verification of X.509 certificate chains that include policy constraints. Attackers may be able to exploit this vulnerability by creating a malicious certificate chain that triggers exponential use of computational resources, leading to a denial-of-service (DoS) attack on affected systems. Policy processing is disabled by default but can be enabled by passing the `-policy\u0026#39; argument to the command line utilities or by calling the `X509_VERIFY_PARAM_set1_policies()\u0026#39; function."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2023-0464",
+              "help": {
+                "text": "Vulnerability CVE-2023-0464\nSeverity: MEDIUM\nPackage: libssl3\nFixed Version: 3.1.0-r1\nLink: [CVE-2023-0464](https://avd.aquasec.com/nvd/cve-2023-0464)\nA security vulnerability has been identified in all supported versions of OpenSSL related to the verification of X.509 certificate chains that include policy constraints. Attackers may be able to exploit this vulnerability by creating a malicious certificate chain that triggers exponential use of computational resources, leading to a denial-of-service (DoS) attack on affected systems. Policy processing is disabled by default but can be enabled by passing the `-policy' argument to the command line utilities or by calling the `X509_VERIFY_PARAM_set1_policies()' function.",
+                "markdown": "**Vulnerability CVE-2023-0464**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libssl3|3.1.0-r1|[CVE-2023-0464](https://avd.aquasec.com/nvd/cve-2023-0464)|\n\nA security vulnerability has been identified in all supported versions of OpenSSL related to the verification of X.509 certificate chains that include policy constraints. Attackers may be able to exploit this vulnerability by creating a malicious certificate chain that triggers exponential use of computational resources, leading to a denial-of-service (DoS) attack on affected systems. Policy processing is disabled by default but can be enabled by passing the `-policy' argument to the command line utilities or by calling the `X509_VERIFY_PARAM_set1_policies()' function."
+              },
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "5.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "MEDIUM"
+                ]
+              }
+            }
+          ],
           "version": "0.38.1"
         }
       },
-      "results": [],
+      "results": [
+        {
+          "ruleId": "CVE-2023-0464",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "Package: libcrypto3\nInstalled Version: 3.1.0-r0\nVulnerability CVE-2023-0464\nSeverity: MEDIUM\nFixed Version: 3.1.0-r1\nLink: [CVE-2023-0464](https://avd.aquasec.com/nvd/cve-2023-0464)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "ortelius/ms-validate-user",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "ortelius/ms-validate-user: libcrypto3@3.1.0-r0"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-0464",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "Package: libssl3\nInstalled Version: 3.1.0-r0\nVulnerability CVE-2023-0464\nSeverity: MEDIUM\nFixed Version: 3.1.0-r1\nLink: [CVE-2023-0464](https://avd.aquasec.com/nvd/cve-2023-0464)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "ortelius/ms-validate-user",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "ortelius/ms-validate-user: libssl3@3.1.0-r0"
+              }
+            }
+          ]
+        }
+      ],
       "columnKind": "utf16CodeUnits",
       "originalUriBaseIds": {
         "ROOTPATH": {
