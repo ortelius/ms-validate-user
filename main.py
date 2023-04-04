@@ -16,25 +16,21 @@ import base64
 import logging
 import os
 from time import sleep
-from typing import List, Optional
+from typing import Optional
 
 import jwt
-import psycopg2
 import uvicorn
 from fastapi import FastAPI, HTTPException, Query, Request, Response, status
-from pydantic import BaseModel
-from sqlalchemy import sql, create_engine
-from sqlalchemy.exc import InterfaceError, OperationalError, StatementError
+from pydantic import BaseModel  # pylint: disable=E0611
+from sqlalchemy import create_engine
+from sqlalchemy.exc import InterfaceError, OperationalError
 
 # Init Globals
-service_name = 'ortelius-ms-validate-user'
+service_name = "ortelius-ms-validate-user"
 db_conn_retry = 3
 
 # Init FastAPI
-app = FastAPI(
-    title=service_name,
-    description=service_name
-)
+app = FastAPI(title=service_name, description=service_name)
 # Init db connection
 db_host = os.getenv("DB_HOST", "localhost")
 db_name = os.getenv("DB_NAME", "postgres")
@@ -43,35 +39,42 @@ db_pass = os.getenv("DB_PASS", "postgres")
 db_port = os.getenv("DB_PORT", "5432")
 id_rsa_pub = os.getenv("RSA_FILE", "/app/keys/id_rsa.pub")
 
-public_key = ''
-if (os.path.exists(id_rsa_pub)):
-    public_key = open(id_rsa_pub, 'r').read()
+public_key = ""
+if os.path.exists(id_rsa_pub):
+    public_key = open(id_rsa_pub, "r").read()
 
 engine = create_engine("postgresql+psycopg2://" + db_user + ":" + db_pass + "@" + db_host + ":" + db_port + "/" + db_name, pool_pre_ping=True)
+
 
 # health check endpoint
 class StatusMsg(BaseModel):
     status: str
-    service_name: Optional[str] = None
+    service_name: str
 
 
 @app.get("/health")
 async def health(response: Response) -> StatusMsg:
+    """
+    This health check end point used by Kubernetes
+    """
     try:
         with engine.connect() as connection:
             conn = connection.connection
             cursor = conn.cursor()
-            cursor.execute('SELECT 1')
+            cursor.execute("SELECT 1")
             if cursor.rowcount > 0:
-                return {"status": 'UP', "service_name": service_name}
+                return StatusMsg(status="UP", service_name=service_name)
             response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
-            return {"status": 'DOWN'}
+            return StatusMsg(status="DOWN", service_name=service_name)
 
     except Exception as err:
         print(str(err))
         response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
-        return {"status": 'DOWN'}
+        return StatusMsg(status="DOWN", service_name=service_name)
+
+
 # end health check
+
 
 # validate user endpoint
 class Message(BaseModel):
@@ -79,27 +82,27 @@ class Message(BaseModel):
 
 
 class DomainList(BaseModel):
-    domains: List[int] = list()
+    domains: list[int] = list()
 
 
-@app.get('/msapi/validateuser')
+@app.get("/msapi/validateuser")
 async def validateuser(request: Request, domains: Optional[str] = Query(None, regex="^[y|Y|n|N]$")) -> DomainList:
-    result = []                                # init result to be empty
-    userid = -1                                # init userid to -1
-    uuid = ''                                  # init uuid to blank
-    global public_key                          # allow update of global var
+    userid = -1  # init userid to -1
+    uuid = ""  # init uuid to blank
+    global public_key  # allow update of global var
+    domlist = DomainList()
 
     try:
-        #Retry logic for failed query
+        # Retry logic for failed query
         no_of_retry = db_conn_retry
-        attempt = 1;
+        attempt = 1
         while True:
             try:
                 with engine.connect() as connection:
                     conn = connection.connection
-                    authorized = False      # init to not authorized
+                    authorized = False  # init to not authorized
 
-                    if (not os.path.exists(id_rsa_pub)):
+                    if not os.path.exists(id_rsa_pub):
                         try:
                             cursor = conn.cursor()
                             cursor.execute("select bootstrap from dm.dm_tableinfo limit 1")
@@ -111,18 +114,18 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
                         except Exception as err:
                             print(str(err))
 
-                    token = request.cookies.get('token', None)  # get the login token from the cookies
+                    token = request.cookies.get("token", None)  # get the login token from the cookies
                     print(token)
                     print(public_key)
-                    if (token is None):                        # no token the fail
+                    if token is None:  # no token the fail
                         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization Failed")
                     try:
                         decoded = jwt.decode(token, public_key, algorithms=["RS256"])  # decypt token
-                        userid = decoded.get('sub', None)           # get userid from token
-                        uuid = decoded.get('jti', None)             # get uuid from token
-                        if (userid is None):                        # no userid fail
+                        userid = decoded.get("sub", None)  # get userid from token
+                        uuid = decoded.get("jti", None)  # get uuid from token
+                        if userid is None:  # no userid fail
                             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid userid")
-                        if (uuid is None):                          # no uuid fail
+                        if uuid is None:  # no uuid fail
                             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid login token")
                     except jwt.InvalidTokenError as err:
                         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(err)) from None
@@ -131,35 +134,35 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
                     sqlstmt = "select count(*) from dm.dm_user_auth where id = (%s) and jti = (%s)"  # see if the user id authorized
 
                     cursor = conn.cursor()  # init cursor
-                    cursor.execute(csql)   # exec delete query
-                    cursor.close()         # close the cursor so don't have a connection leak
-                    conn.commit()          # commit the delete and free up lock
+                    cursor.execute(csql)  # exec delete query
+                    cursor.close()  # close the cursor so don't have a connection leak
+                    conn.commit()  # commit the delete and free up lock
 
-                    params = tuple([userid, uuid])   # setup parameters to count(*) query
-                    cursor = conn.cursor()      # init cursor
+                    params = tuple([userid, uuid])  # setup parameters to count(*) query
+                    cursor = conn.cursor()  # init cursor
                     cursor.execute(sqlstmt, params)  # run the query
 
-                    row = cursor.fetchone()     # fetch a row
-                    rowcnt = 0                  # init counter
-                    while row:                  # loop until there are no more rows
-                        rowcnt = row[0]         # get the 1st column data
+                    row = cursor.fetchone()  # fetch a row
+                    rowcnt = 0  # init counter
+                    while row:  # loop until there are no more rows
+                        rowcnt = row[0]  # get the 1st column data
                         row = cursor.fetchone()  # get the next row
-                    cursor.close()              # close the cursor so don't have a connection leak
+                    cursor.close()  # close the cursor so don't have a connection leak
 
-                    if (rowcnt > 0):            # > 0 means that user is authorized
-                        authorized = True       # set authorization to True
+                    if rowcnt > 0:  # > 0 means that user is authorized
+                        authorized = True  # set authorization to True
                         usql = "update dm.dm_user_auth set lastseen = current_timestamp at time zone 'UTC' where id = (%s) and jti = (%s)"  # sql to update the last seen timestamp
-                        params = tuple([userid, uuid])       # setup parameters to update query
-                        cursor = conn.cursor()          # init cursor
-                        cursor.execute(usql, params)    # run the query
-                        cursor.close()                  # close the cursor so don't have a connection leak
-                        conn.commit()                   # commit the update and free up lock
+                        params = tuple([userid, uuid])  # setup parameters to update query
+                        cursor = conn.cursor()  # init cursor
+                        cursor.execute(usql, params)  # run the query
+                        cursor.close()  # close the cursor so don't have a connection leak
+                        conn.commit()  # commit the update and free up lock
 
-                    if (not authorized):       # fail API call if not authorized
+                    if not authorized:  # fail API call if not authorized
                         conn.close()
                         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization Failed")
 
-                    if (domains is not None and domains.lower() == 'y'):    # get the list of domains for the user if domains=Y
+                    if domains is not None and domains.lower() == "y":  # get the list of domains for the user if domains=Y
                         domainid = -1
                         sqlstmt = "SELECT domainid FROM dm.dm_user WHERE id = (%s)"
                         cursor = conn.cursor()  # init cursor
@@ -200,21 +203,16 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
                         cursor.execute(sqlstmt, params)
                         row = cursor.fetchone()
                         while row:
-                            result = row[0]
+                            domlist.domains.append(row[0])
                             row = cursor.fetchone()
                     conn.close()
-                return {"domains": result}
+                return domlist
 
             except (InterfaceError, OperationalError) as ex:
                 if attempt < no_of_retry:
                     sleep_for = 0.2
-                    logging.error(
-                        "Database connection error: {} - sleeping for {}s"
-                        " and will retry (attempt #{} of {})".format(
-                            ex, sleep_for, attempt, no_of_retry
-                        )
-                    )
-                    #200ms of sleep time in cons. retry calls
+                    logging.error("Database connection error: %s - sleeping for %d seconds and will retry (attempt #%d of %d)", ex, sleep_for, attempt, no_of_retry)
+                    # 200ms of sleep time in cons. retry calls
                     sleep(sleep_for)
                     attempt += 1
                     continue
@@ -227,5 +225,6 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
         print(str(err))
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(err)) from None
 
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+    uvicorn.run(app, port=5000)
