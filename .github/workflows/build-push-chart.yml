@@ -183,6 +183,7 @@ jobs:
           repo: ortelius/ortelius-charts
           token: ${{ secrets.HELM_INDEXER_TOKEN }}
 
+
   sbom:
     runs-on: ubuntu-latest
     needs: [setenv, release]
