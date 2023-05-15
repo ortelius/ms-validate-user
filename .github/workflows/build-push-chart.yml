@@ -170,7 +170,7 @@ jobs:
           commitChange: true
           branch: main
           masterBranchName: main
-          argetBranch: main
+          targetBranch: main
           changes: |
             {
               "chart/${{ github.event.repository.name }}/values.yaml":
