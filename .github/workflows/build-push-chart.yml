@@ -168,6 +168,9 @@ jobs:
         uses: fjogeleit/yaml-update-action@d98ee6a10a971effea75480e3f315e4dacc89a23 # main
         with:
           commitChange: true
+          branch: main
+          masterBranchName: main
+          argetBranch: main
           changes: |
             {
               "chart/${{ github.event.repository.name }}/values.yaml":
