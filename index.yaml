@@ -10,7 +10,7 @@ entries:
     name: ms-validate-user
     type: application
     urls:
-    - ms-validate-user-10.0.77.tgz
+    - https://github.com/ortelius/ms-validate-user/releases/tag/ms-validate-user-10.0.77/ms-validate-user-10.0.77.tgz
     version: 10.0.77
   - apiVersion: v2
     appVersion: 10.0.68
