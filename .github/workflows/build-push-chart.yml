@@ -172,7 +172,6 @@ jobs:
           gh_token: ${{ secrets.HELM_INDEXER_TOKEN }}
           chart: chart/${{ needs.setenv.outputs.compname }}
           chart_version: ${{ needs.setenv.outputs.chart_version }}
-          repo: ${{ github.event.repository.name }}
           image_repository: ${{ needs.setenv.outputs.image_repository }}
           image_tag: ${{ needs.setenv.outputs.image_tag }}
           image_digest: ${{ needs.release.outputs.digest }}
