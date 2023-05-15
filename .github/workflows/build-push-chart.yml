@@ -167,10 +167,7 @@ jobs:
         id: chart
         uses: fjogeleit/yaml-update-action@d98ee6a10a971effea75480e3f315e4dacc89a23 # main
         with:
-          commitChange: true
-          branch: main
-          masterBranchName: main
-          targetBranch: main
+          commitChange: false
           changes: |
             {
               "chart/${{ github.event.repository.name }}/values.yaml":
@@ -187,7 +184,7 @@ jobs:
             }
 
       - name: Helm Chart Releaser
-        uses: ortelius/ms-cr-action@v1.0 # v3.5
+        uses: ortelius/ms-cr-action@v1.0
         with:
           GPG_KEYRING_BASE64: "${{ secrets.GPG_KEYRING_BASE64 }}"
           GPG_PASSPHRASE: "${{ secrets.GPG_PASSPHRASE }}"
