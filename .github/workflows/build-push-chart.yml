@@ -176,6 +176,7 @@ jobs:
           image_tag: ${{ needs.setenv.outputs.image_tag }}
           image_digest: ${{ needs.release.outputs.digest }}
 
+
       - name: Trigger Rebuild of Main Chart
         uses: benc-uk/workflow-dispatch@798e70c97009500150087d30d9f11c5444830385 # v1.2.2
         with:
