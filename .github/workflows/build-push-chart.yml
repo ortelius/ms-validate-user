@@ -151,7 +151,7 @@ jobs:
     if: ${{ github.repository_owner == 'ortelius' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     steps:
       - name: Helm Chart Releaser
-        uses: ortelius/ms-cr-action@c63c8064015a812c580d6ba849e136dbcf5c1001d # v1.2
+        uses: ortelius/ms-cr-action@63c8064015a812c580d6ba849e136dbcf5c1001d # v1.2
         with:
           gpg_keyring_base64: ${{ secrets.GPG_KEYRING_BASE64 }}
           gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
