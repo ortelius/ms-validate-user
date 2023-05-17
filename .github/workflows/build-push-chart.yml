@@ -187,34 +187,17 @@ jobs:
         with:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
-      - name: Checkout
-        id: checkout
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-
-      - name: Generate SBOM
-        uses: anchore/sbom-action@07978da4bdb4faa726e52dfc6b1bed63d4b56479 # v0.13.3
-        id: sbom
+      - name: SBOM
+        uses: ortelius/ms-sbom-action@v1.0.0
         with:
-          format: cyclonedx-json
-          output-file: /tmp/cyclonedx.json
-          image: ${{ needs.setenv.outputs.image_repo_tag }}
-
-      - name: Update Compnent
-        id: updatecomp
-        env:
-          DHURL: ${{ needs.setenv.outputs.dhurl }}
-          DHUSER: ${{ secrets.DHUSER }}
-          DHPASS: ${{ secrets.DHPASS }}
-          GIT_BRANCH: ${{ needs.setenv.outputs.branch }}
-          CHART_VERSION: ${{ needs.setenv.outputs.chart_version }}
-          COMPNAME: ${{ needs.setenv.outputs.compname }}
-          DIGEST: ${{ needs.release.outputs.digest }}
-          IMAGE_REPO: ${{ needs.setenv.outputs.image_repository }}
-          IMAGE_REPO_TAG: ${{ needs.setenv.outputs.image_repo_tag }}
-          IMAGE_TAG: ${{ needs.setenv.outputs.image_tag }}
-          IMAGE_VERSION: ${{ needs.setenv.outputs.image_version }}
-          SHORT_SHA: ${{ needs.setenv.outputs.short_sha }}
-
-        run: |
-          pip install ortelius-cli
-          dh updatecomp --rsp component.toml --deppkg cyclonedx@/tmp/cyclonedx.json
+          dhpass: ${{ secrets.DHPASS }}
+          dhurl: ${{ needs.setenv.outputs.dhurl }}
+          dhuser: ${{ secrets.DHUSER }}
+          compname: ${{ needs.setenv.outputs.compname }}
+          chart_version: ${{ needs.setenv.outputs.chart_version }}
+          git_branch: ${{ needs.setenv.outputs.branch }}
+          image_digest: ${{ needs.release.outputs.digest }}
+          image_repo_tag: ${{ needs.setenv.outputs.image_repo_tag }}
+          image_repo: ${{ needs.setenv.outputs.image_repository }}
+          image_tag: ${{ needs.setenv.outputs.image_tag }}
+          image_version: ${{ needs.setenv.outputs.image_version }}
