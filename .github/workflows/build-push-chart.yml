@@ -67,7 +67,7 @@ jobs:
 
       - name: Image Releaser
         id: release
-        uses: ortelius/ms-release-action@8d3e173e28e5614e6d26f43d447a5c12baf384f2 # v1.2
+        uses: ortelius/ms-release-action@8d3e173e28e5614e6d26f43d447a5c12baf384f2 # v1.0.0
         with:
           gh_repository_owner: ${{ github.repository_owner }}
           gh_event_name: ${{ github.event_name }}
@@ -124,7 +124,7 @@ jobs:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
       - name: Helm Chart Releaser
-        uses: ortelius/ms-cr-action@d98a4163765db41dbc8159f3a31f30f77bbe23bd # v1.2
+        uses: ortelius/ms-cr-action@d98a4163765db41dbc8159f3a31f30f77bbe23bd # v1.2.0
         with:
           gpg_keyring_base64: ${{ secrets.GPG_KEYRING_BASE64 }}
           gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
