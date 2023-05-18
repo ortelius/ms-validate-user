@@ -73,7 +73,7 @@ jobs:
     needs: setenv
 
     outputs:
-      digest: ${{ steps.build.outputs.digest }}
+      digest: ${{ steps.release.outputs.digest }}
 
     steps:
       - name: Harden Runner
@@ -82,6 +82,7 @@ jobs:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
       - name: Image Releaser
+        id: release
         uses: ortelius/ms-release-action@8d3e173e28e5614e6d26f43d447a5c12baf384f2 # v1.2
         with:
           gh_repository_owner: ${{ github.repository_owner }}
