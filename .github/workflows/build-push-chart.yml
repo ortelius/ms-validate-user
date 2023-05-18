@@ -38,35 +38,19 @@ jobs:
         with:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
-      - name: Checkout
-        id: checkout
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-        with:
-          fetch-depth: 1
-
-      - name: Export env
+      - name: Setup Env
         id: env
-        env:
-          DHURL: https://console.deployhub.com
-          REGISTRY: quay.io
-          BRANCH: ${{ github.head_ref || github.ref_name }}
-        run: |
-          BRANCH=$(echo "${{ env.BRANCH }}" | cut -d'/' -f1)
-          BASE_VERSION=$(curl -s "https://ortelius.github.io/${{ github.event.repository.name }}/index.yaml" | grep version: | awk '{print $2}' | cut -f1-2 -d. | sort -u -r --version-sort | head -1)
-          SHORT_SHA=$(echo ${{ github.sha }} | cut -c 1-6)
-          {
-           echo "dhurl=${{ env.DHURL }}"
-           echo "branch=${BRANCH}"
-           echo "chart_version=${BASE_VERSION}.${{ github.run_number }}"
-           echo "compname=${{ github.event.repository.name }}"
-           echo "image_repo_tag=${{ env.REGISTRY }}/${{ github.repository }}:${BRANCH}-v${BASE_VERSION}.${{ github.run_number }}-g${SHORT_SHA}"
-           echo "image_repository=${{ env.REGISTRY }}/${{ github.repository }}"
-           echo "image_tag=${BRANCH}-v${BASE_VERSION}.${{ github.run_number }}-g${SHORT_SHA}"
-           echo "image_version=${BASE_VERSION}.${{ github.run_number }}-g${SHORT_SHA}"
-           echo "registry=${{ env.REGISTRY }}"
-           echo "short_sha=${SHORT_SHA}"
-           echo "gh_handle=$GITHUB_ACTOR"
-          } >> "$GITHUB_OUTPUT"
+        uses: ortelius/ms-setenv-action@53b0ff245be20c6bacff70411496aa5f09f640a8 # v1.0.0
+        with:
+          gh_head_ref: ${{ github.head_ref }}
+          gh_ref_name: ${{ github.ref_name }}
+          gh_event_repo_name: ${{ github.event.repository.name }}
+          gh_sha: ${{ github.sha }}
+          gh_repository: ${{ github.repository }}
+          gh_run_number: ${{ github.run_number }}
+          BRANCH: ${{ env.BRANCH }}
+          REGISTRY: ${{ env.REGISTRY }}
+          DHURL: ${{ env.DHUR }}
 
   release:
     runs-on: ubuntu-latest
