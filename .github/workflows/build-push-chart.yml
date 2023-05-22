@@ -40,7 +40,7 @@ jobs:
 
       - name: Setup Env
         id: env
-        uses: ortelius/ms-setenv-action@b4f16ccd4dd33c1df54d266ed35537fe4e826e9e # v1.0.0
+        uses: ortelius/ms-setenv-action@d4f32967a7dc0cb952c037a5e71ccce5ae7d455f # v1.0.0
         with:
           gh_head_ref: ${{ github.head_ref }}
           gh_ref_name: ${{ github.ref_name }}
@@ -48,9 +48,6 @@ jobs:
           gh_sha: ${{ github.sha }}
           gh_repository: ${{ github.repository }}
           gh_run_number: ${{ github.run_number }}
-          BRANCH: ${{ env.BRANCH }}
-          REGISTRY: ${{ env.REGISTRY }}
-          DHURL: ${{ env.DHURL }}
 
   release:
     runs-on: ubuntu-latest
