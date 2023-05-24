@@ -3,7 +3,7 @@ psycopg2_binary==2.9.6
 pydantic==1.10.8
 SQLAlchemy==2.0.14
 uvicorn==0.22.0
-requests==2.30.0
+requests==2.31.0
 pyjwt==2.7.0
 pyjwt[crypto]
 cryptography
