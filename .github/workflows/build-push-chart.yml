@@ -17,38 +17,15 @@ permissions: read-all
 
 jobs:
   setenv:
-    runs-on: ubuntu-latest
-
-    outputs:
-      short_sha: ${{ steps.env.outputs.short_sha }}
-      chart_version: ${{ steps.env.outputs.chart_version }}
-      image_version: ${{ steps.env.outputs.image_version }}
-      image_tag: ${{ steps.env.outputs.image_tag }}
-      image_repo_tag: ${{ steps.env.outputs.image_repo_tag }}
-      image_repository: ${{ steps.env.outputs.image_repository }}
-      registry: ${{ steps.env.outputs.registry }}
-      branch: ${{ steps.env.outputs.branch }}
-      compname: ${{ steps.env.outputs.compname }}
-      dhurl: ${{ steps.env.outputs.dhurl }}
-      gh_handle: ${{ steps.env.outputs.gh_handle }}
-
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
-        with:
-          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
-
-      - name: Setup Env
-        id: env
-        uses: ortelius/ms-setenv-action@d4f32967a7dc0cb952c037a5e71ccce5ae7d455f # v1.0.0
-        with:
-          gh_head_ref: ${{ github.head_ref }}
-          gh_ref_name: ${{ github.ref_name }}
-          gh_event_repo_name: ${{ github.event.repository.name }}
-          gh_sha: ${{ github.sha }}
-          gh_repository: ${{ github.repository }}
-          gh_run_number: ${{ github.run_number }}
-
+    uses: ortelius/ms-setenv-action/workflow-set-env.yml@573da32c9b3af3a6d88f7be2eb657e631aad3cfd
+    with:
+      gh_head_ref: ${{ github.head_ref }}
+      gh_ref_name: ${{ github.ref_name }}
+      gh_event_repo_name: ${{ github.event.repository.name }}
+      gh_sha: ${{ github.sha }}
+      gh_repo: ${{ github.repository }}
+      gh_run_number: ${{ github.run_number }}
+    
   release:
     runs-on: ubuntu-latest
     needs: setenv
