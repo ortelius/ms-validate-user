@@ -17,7 +17,7 @@ permissions: read-all
 
 jobs:
   setenv:
-    uses: ortelius/ms-setenv-action/.github/workflows/workflow-set-env.yml@5f72d98af794ceef47c40218c414007a0b1f6745
+    uses: ortelius/ms-setenv-action/.github/workflows/workflow-set-env.yml@90316c8abab18fbedca2ec1eafe547608d9d11a1
     with:
       gh_head_ref: ${{ github.head_ref }}
       gh_ref_name: ${{ github.ref_name }}
