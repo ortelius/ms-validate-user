@@ -52,6 +52,8 @@ jobs:
       image_repo_tag: ${{ needs.setenv.outputs.image_repo_tag }}
 
   helm:
+    permissions:
+      contents: write
     uses: ortelius/workflow-toolkit/.github/workflows/helm-release-workflow.yml@main
     needs: [setenv, release]
     with:
