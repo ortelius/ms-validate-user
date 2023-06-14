@@ -39,4 +39,32 @@ jobs:
       QUAY_USERID: ${{ secrets.QUAY_USERID }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
 
-  
+  trivy:
+    uses: ortelius/workflow-toolkit/.github/workflows/trivy-scan-workflow.yml@main
+    needs: [setenv, release]
+    with:
+      gh_repository_owner: ${{ github.repository_owner }}
+      gh_event_name: ${{ github.event_name }}
+      gh_ref: ${{ github.ref }}
+      image_repo_tag: ${{ needs.setenv.outputs.image_repo_tag }}
+
+
+  helm:
+    uses: ortelius/workflow-toolkit/.github/workflows/helm-release-workflow.yml@main
+    needs: [setenv, release]
+    with:
+      gh_repository_owner: ${{ github.repository_owner }}
+      gh_event_name: ${{ github.event_name }}
+      gh_ref: ${{ github.ref }}
+      gh_handle: ${{ needs.setenv.outputs.gh_handle }}
+      compname: chart/${{ needs.setenv.outputs.compname }}
+      chart_version: ${{ needs.setenv.outputs.chart_version }}
+      image_repository: ${{ needs.setenv.outputs.image_repository }}
+      image_tag: ${{ needs.setenv.outputs.image_tag }}
+      image_digest: ${{ needs.release.outputs.digest }}
+    secrets:
+      GPG_KEYRING_BASE64: ${{ secrets.GPG_KEYRING_BASE64 }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_KEY: ${{ secrets.GPG_KEY }}
+      HELM_INDEXER_TOKEN: ${{ secrets.HELM_INDEXER_TOKEN }}
+
