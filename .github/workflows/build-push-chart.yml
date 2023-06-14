@@ -84,7 +84,7 @@ jobs:
       chart_version: ${{ needs.setenv.outputs.chart_version }}
       branch: ${{ needs.setenv.outputs.branch }}
       digest: ${{ needs.release.outputs.digest }}
-      image_repo_tag:  ${{ needs.setenv.outputs.image_repo_tag }}
+      image_repo_tag: ${{ needs.setenv.outputs.image_repo_tag }}
       image_repository: ${{ needs.setenv.outputs.image_repository }}
       image_tag: ${{ needs.setenv.outputs.image_tag }}
       image_version: ${{ needs.setenv.outputs.image_version }}
