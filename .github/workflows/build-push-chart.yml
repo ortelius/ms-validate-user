@@ -25,3 +25,18 @@ jobs:
       gh_sha: ${{ github.sha }}
       gh_repo: ${{ github.repository }}
       gh_run_number: ${{ github.run_number }}
+
+  release:
+    uses: ortelius/workflow-toolkit/.github/workflows/container-release-workflow.yml@main
+    needs: setenv
+    with:
+      gh_repository_owner: ${{ github.repository_owner }}
+      gh_event_name: ${{ github.event_name }}
+      gh_ref: ${{ github.ref }}
+      registry: ${{ needs.setenv.outputs.registry }}
+      image_repo_tag: ${{ needs.setenv.outputs.image_repo_tag }}
+    secrets:
+      QUAY_USERID: ${{ secrets.QUAY_USERID }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+  
