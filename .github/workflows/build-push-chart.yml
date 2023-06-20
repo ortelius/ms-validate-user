@@ -185,4 +185,3 @@ jobs:
           image_repository: ${{ needs.setenv.outputs.image_repository }}
           image_tag: ${{ needs.setenv.outputs.image_tag }}
           image_version: ${{ needs.setenv.outputs.image_version }}
-          
