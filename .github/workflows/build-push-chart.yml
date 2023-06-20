@@ -61,7 +61,7 @@ jobs:
       gh_event_name: ${{ github.event_name }}
       gh_ref: ${{ github.ref }}
       gh_handle: ${{ needs.setenv.outputs.gh_handle }}
-      compname: chart/${{ needs.setenv.outputs.compname }}
+      chart: chart/${{ needs.setenv.outputs.compname }}
       chart_version: ${{ needs.setenv.outputs.chart_version }}
       image_repository: ${{ needs.setenv.outputs.image_repository }}
       image_tag: ${{ needs.setenv.outputs.image_tag }}
@@ -70,7 +70,7 @@ jobs:
       GPG_KEYRING_BASE64: ${{ secrets.GPG_KEYRING_BASE64 }}
       GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
       GPG_KEY: ${{ secrets.GPG_KEY }}
-      HELM_INDEXER_TOKEN: ${{ secrets.HELM_INDEXER_TOKEN }}
+      gh_token: ${{ secrets.HELM_INDEXER_TOKEN }}
 
   sbom:
     uses: ortelius/workflow-toolkit/.github/workflows/sbom-generation-workflow.yml@main
