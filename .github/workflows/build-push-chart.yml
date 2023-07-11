@@ -39,38 +39,17 @@ jobs:
       QUAY_USERID: ${{ secrets.QUAY_USERID }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
 
-
   trivy:
-    runs-on: ubuntu-latest
-    needs: [setenv, release]
-
     permissions:
       security-events: write
       statuses: write
-
-    if: ${{ github.repository_owner == 'ortelius' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
-        with:
-          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
-
-      - name: Checkout
-        id: checkout
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@1f0aa582c8c8f5f7639610d6d38baddfea4fdcee # master
-        with:
-          image-ref: ${{ needs.setenv.outputs.image_repo_tag }}
-          format: "sarif"
-          output: "trivy-results.sarif"
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@168b99b3c22180941ae7dbdd5f5c9678ede476ba # v2.2.7
-        if: always()
-        with:
-          sarif_file: "trivy-results.sarif"
+    uses: ortelius/workflow-toolkit/.github/workflows/trivy-scan-workflow.yml@chore/standalone-workflow
+    needs: [setenv, release]
+    with:
+      gh_repository_owner: ${{ github.repository_owner }}
+      gh_event_name: ${{ github.event_name }}
+      gh_ref: ${{ github.ref }}
+      image_repo_tag: ${{ needs.setenv.outputs.image_repo_tag }}
 
   helm:
     runs-on: ubuntu-latest
