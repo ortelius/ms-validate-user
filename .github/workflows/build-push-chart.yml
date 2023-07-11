@@ -39,6 +39,7 @@ jobs:
       QUAY_USERID: ${{ secrets.QUAY_USERID }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
 
+
   trivy:
     runs-on: ubuntu-latest
     needs: [setenv, release]
