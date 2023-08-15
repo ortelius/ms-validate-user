@@ -9,3 +9,5 @@ Environments to Applications report microservices
 ![CodeQL](https://github.com/ortelius/ms-validate-user/workflows/CodeQL/badge.svg)
 [![OpenSSF
 -Scorecard](https://api.securityscorecards.dev/projects/github.com/ortelius/ms-validate-user/badge)](https://api.securityscorecards.dev/projects/github.com/ortelius/ms-validate-user)
+
+![Discord](https://img.shields.io/discord/722468819091849316)
