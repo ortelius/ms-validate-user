@@ -24,6 +24,9 @@ jobs:
       gh_repo: ${{ github.repository }}
       gh_run_number: ${{ github.run_number }}
   release:
+    permissions:
+      id-token: write
+      contents: write
     uses: ortelius/workflow-toolkit/.github/workflows/container-release-workflow.yml@39d6bee0f22c0d4b21239231b6325059637b296a
     needs: setenv
     with:
@@ -37,8 +40,6 @@ jobs:
       QUAY_USERID: ${{ secrets.QUAY_USERID }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
       gh_token: ${{ secrets.HELM_INDEXER_TOKEN }}
-    permissions:
-      id-token: write
   trivy:
     permissions:
       security-events: write
