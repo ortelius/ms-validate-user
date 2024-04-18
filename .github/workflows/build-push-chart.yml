@@ -35,6 +35,7 @@ jobs:
     secrets:
       QUAY_USERID: ${{ secrets.QUAY_USERID }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+      gh_token: ${{ secrets.HELM_INDEXER_TOKEN }}
     permissions:
       id-token: write
   trivy:
