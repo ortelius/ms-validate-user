@@ -30,6 +30,7 @@ jobs:
       gh_repository_owner: ${{ github.repository_owner }}
       gh_event_name: ${{ github.event_name }}
       gh_ref: ${{ github.ref }}
+      gh_handle: ${{ needs.setenv.outputs.gh_handle }}
       registry: ${{ needs.setenv.outputs.registry }}
       image_repo_tag: ${{ needs.setenv.outputs.image_repo_tag }}
     secrets:
