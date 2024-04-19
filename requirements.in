@@ -8,3 +8,4 @@ pyjwt==2.8.0
 pyjwt[crypto]
 cryptography==42.0.5
 certifi==2024.2.2
+idna==3.7
