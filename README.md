@@ -38,10 +38,10 @@ ortelius-ms-validate-user
 
 ### [GET]/health
 
-- Summary
+- Summary  
 Health
 
-- Description
+- Description  
 This health check end point used by Kubernetes
 
 #### Responses
@@ -61,7 +61,7 @@ This health check end point used by Kubernetes
 
 ### [GET]/msapi/validateuser
 
-- Summary
+- Summary  
 Validateuser
 
 #### Parameters(Query)
