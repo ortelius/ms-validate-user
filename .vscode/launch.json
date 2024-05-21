@@ -6,9 +6,7 @@
       "type": "python",
       "request": "launch",
       "program": "${file}",
-      "console": "integratedTerminal",
-      "env": {"DB_HOST": "db.deployhub.com", "DB_PASS": "InS0mn1a+15", "DB_PORT": "80"}
-
+      "console": "integratedTerminal"
     }
   ]
 }
