@@ -23,7 +23,7 @@ from typing import Optional
 
 import jwt
 import uvicorn
-from fastapi import FastAPI, HTTPException, Query, Request, Response, status
+from fastapi import FastAPI, HTTPException, Query, Cookie, Response, status
 from pydantic import BaseModel  # pylint: disable=E0611
 from sqlalchemy import create_engine
 from sqlalchemy.exc import InterfaceError, OperationalError
@@ -89,7 +89,7 @@ class DomainList(BaseModel):
 
 
 @app.get("/msapi/validateuser")
-async def validateuser(request: Request, domains: Optional[str] = Query(None, regex="^[y|Y|n|N]$")) -> DomainList:
+async def validateuser(token: str = Cookie(None), domains: Optional[str] = Query(None, regex="^[y|Y|n|N]$")) -> DomainList:
     userid = -1  # init userid to -1
     uuid = ""  # init uuid to blank
     global public_key  # allow update of global var
@@ -117,11 +117,11 @@ async def validateuser(request: Request, domains: Optional[str] = Query(None, re
                         except Exception as err:
                             print(str(err))
 
-                    token = request.cookies.get("token", None)  # get the login token from the cookies
+           #         token = request.cookies.get("token", None)  # get the login token from the cookies
                     print(token)
                     print(public_key)
-                    if token is None:  # no token the fail
-                        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization Failed")
+                    if not token:  # no token the fail
+                        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization Failed - Token")
                     try:
                         decoded = jwt.decode(token, public_key, algorithms=["RS256"])  # decypt token
                         userid = decoded.get("sub", None)  # get userid from token
