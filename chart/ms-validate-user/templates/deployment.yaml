@@ -62,6 +62,10 @@ spec:
                 secretKeyRef:
                   name: pgcred
                   key: DBName
+          {{ if and (ne .Values.ingress.type "glb" ) (ne .Values.ingress.type "alb" ) (ne .Values.ingress.type "k3s" ) }}
+            - name: KINDINGRESS
+              value: 1
+          {{ end }}
           ports:
             - name: http
               containerPort: 8080
