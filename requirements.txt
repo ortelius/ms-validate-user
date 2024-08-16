@@ -203,9 +203,9 @@ exceptiongroup==1.2.2 \
     --hash=sha256:3111b9d131c238bec2f8f516e123e14ba243563fb135d3fe885990585aa7795b \
     --hash=sha256:47c2edf7c6738fafb49fd34290706d1a1a2f4d1c6df275526b62cbb4aa5393cc
     # via anyio
-fastapi==0.112.0 \
-    --hash=sha256:3487ded9778006a45834b8c816ec4a48d522e2631ca9e75ec5a774f1b052f821 \
-    --hash=sha256:d262bc56b7d101d1f4e8fc0ad2ac75bb9935fec504d2b7117686cec50710cf05
+fastapi==0.112.1 \
+    --hash=sha256:b2537146f8c23389a7faa8b03d0bd38d4986e6983874557d95eed2acc46448ef \
+    --hash=sha256:bcbd45817fc2a1cd5da09af66815b84ec0d3d634eb173d1ab468ae3103e183e4
     # via -r requirements.in
 greenlet==3.0.3 \
     --hash=sha256:01bc7ea167cf943b4c802068e178bbf70ae2e8c080467070d01bfa02f337ee67 \
@@ -513,10 +513,12 @@ sqlalchemy==2.0.32 \
     --hash=sha256:c750987fc876813f27b60d619b987b057eb4896b81117f73bb8d9918c14f1cad \
     --hash=sha256:e567a8793a692451f706b363ccf3c45e056b67d90ead58c3bc9471af5d212202
     # via -r requirements.in
-starlette==0.37.2 \
-    --hash=sha256:6fe59f29268538e5d0d182f2791a479a0c64638e6935d1c6989e63fb2699c6ee \
-    --hash=sha256:9af890290133b79fc3db55474ade20f6220a364a0402e0b556e7cd5e1e093823
-    # via fastapi
+starlette==0.38.2 \
+    --hash=sha256:4ec6a59df6bbafdab5f567754481657f7ed90dc9d69b0c9ff017907dd54faeff \
+    --hash=sha256:c7c0441065252160993a1a37cf2a73bb64d271b17303e0b0c1eb7191cfb12d75
+    # via
+    #   -r requirements.in
+    #   fastapi
 typing-extensions==4.12.2 \
     --hash=sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d \
     --hash=sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8
