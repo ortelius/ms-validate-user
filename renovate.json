@@ -19,10 +19,6 @@
       "matchPackagePatterns": [".*"],
       "automerge": true,
       "autoApprove": true
-    },
-    {
-      "matchPackageNames": ["starlette"],
-      "enabled": false
     }
   ],
   "separateMajorMinor": false,
