@@ -4,6 +4,8 @@ COPY . /app
 
 WORKDIR /app
 ENV PATH=/home/nonroot/.local/bin:$PATH
+
+# hadolint ignore=DL4006
 RUN wget -q -O - https://install.python-poetry.org | python -
 RUN poetry install --no-root;
 
