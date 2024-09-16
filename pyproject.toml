@@ -16,7 +16,7 @@ requests = "2.32.3"
 pyjwt = {extras = ["crypto"], version = "^2.9.0"}
 cryptography = "43.0.1"
 certifi = "2024.8.30"
-idna = "3.8"
+idna = "3.10"
 
 
 [build-system]
