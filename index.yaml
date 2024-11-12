@@ -2,6 +2,17 @@ apiVersion: v1
 entries:
   ms-validate-user:
   - apiVersion: v2
+    appVersion: 10.0.1094
+    created: "2024-11-12T15:19:22.213423611Z"
+    description: Dependency Packages
+    digest: c5e7b5131bad68a4c8ddb7569f4e1821499908a2c1228a5c54e4f7a60a66a278
+    icon: https://ortelius.github.io/ortelius-charts/logo.png
+    name: ms-validate-user
+    type: application
+    urls:
+    - https://github.com/ortelius/ms-validate-user/releases/download/ms-validate-user-10.0.1094/ms-validate-user-10.0.1094.tgz
+    version: 10.0.1094
+  - apiVersion: v2
     appVersion: 10.0.1092
     created: "2024-11-08T18:41:45.401187306Z"
     description: Dependency Packages
@@ -4830,4 +4841,4 @@ entries:
     urls:
     - https://github.com/ortelius/ms-validate-user/releases/download/ms-validate-user-10.0.6/ms-validate-user-10.0.6.tgz
     version: 10.0.6
-generated: "2024-11-08T18:41:45.400879412Z"
+generated: "2024-11-12T15:19:22.213093932Z"
