@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/python:latest-dev@sha256:d20e7c8584e05690e155917960c2b9fd0fdca657a36706722e595c4a03ce4e3f AS builder
+FROM cgr.dev/chainguard/python:latest-dev@sha256:4fc64fd3287508c92a29498852ecc52a8d5fc9bd18b63b3e9a22256e0751a8d0 AS builder
 
 COPY . /app
 
