@@ -18,19 +18,19 @@ ortelius-ms-validate-user
 
 ## Path Table
 
-| Method | Path | Description |
-| --- | --- | --- |
-| GET | [/health](#gethealth) | Health |
-| GET | [/msapi/validateuser](#getmsapivalidateuser) | Validateuser |
+| Method | Path                                         | Description  |
+|--------|----------------------------------------------|--------------|
+| GET    | [/health](#gethealth)                        | Health       |
+| GET    | [/msapi/validateuser](#getmsapivalidateuser) | Validateuser |
 
 ## Reference Table
 
-| Name | Path | Description |
-| --- | --- | --- |
-| DomainList | [#/components/schemas/DomainList](#componentsschemasdomainlist) |  |
-| HTTPValidationError | [#/components/schemas/HTTPValidationError](#componentsschemashttpvalidationerror) |  |
-| StatusMsg | [#/components/schemas/StatusMsg](#componentsschemasstatusmsg) |  |
-| ValidationError | [#/components/schemas/ValidationError](#componentsschemasvalidationerror) |  |
+| Name                | Path                                                                              | Description |
+|---------------------|-----------------------------------------------------------------------------------|-------------|
+| DomainList          | [#/components/schemas/DomainList](#componentsschemasdomainlist)                   |             |
+| HTTPValidationError | [#/components/schemas/HTTPValidationError](#componentsschemashttpvalidationerror) |             |
+| StatusMsg           | [#/components/schemas/StatusMsg](#componentsschemasstatusmsg)                     |             |
+| ValidationError     | [#/components/schemas/ValidationError](#componentsschemasvalidationerror)         |             |
 
 ## Path Details
 
@@ -38,10 +38,10 @@ ortelius-ms-validate-user
 
 ### [GET]/health
 
-- Summary  
+- Summary
 Health
 
-- Description  
+- Description
 This health check end point used by Kubernetes
 
 #### Responses
@@ -61,7 +61,7 @@ This health check end point used by Kubernetes
 
 ### [GET]/msapi/validateuser
 
-- Summary  
+- Summary
 Validateuser
 
 #### Parameters(Query)

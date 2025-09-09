@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "ms-validate-user"
 version = "0.1.0"
-description = ""
+description = "FastAPI service for user validation and account recovery"
 authors = ["Steve Taylor <steve@deployhub.com>"]
 license = "Apache-2"
 readme = "README.md"
@@ -12,12 +12,8 @@ fastapi = "0.115.8"
 psycopg2-binary = "2.9.10"
 sqlalchemy = "2.0.38"
 uvicorn = "0.34.0"
-requests = "2.32.3"
-pyjwt = {extras = ["crypto"], version = "^2.9.0"}
-cryptography = "44.0.1"
-certifi = "2025.1.31"
-idna = "3.10"
-
+pyjwt = { extras = ["crypto"], version = "^2.9.0" }
+pydantic = { version = "^2.11.7", extras = ["email"] }
 
 [build-system]
 requires = ["poetry-core"]
