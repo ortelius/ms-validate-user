@@ -17,6 +17,7 @@ pyjwt = {extras = ["crypto"], version = "^2.9.0"}
 cryptography = "45.0.7"
 certifi = "2025.8.3"
 idna = "3.10"
+pydantic = { version = "^2.11.7", extras = ["email"] }
 
 
 [build-system]
