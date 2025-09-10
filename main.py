@@ -1,5 +1,6 @@
 # Copyright (c) 2021 Linux Foundation
 # Licensed under the Apache License, Version 2.0
+# pylint: disable=E0401
 
 import base64
 import hashlib

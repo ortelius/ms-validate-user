@@ -62,6 +62,31 @@ spec:
                 secretKeyRef:
                   name: pgcred
                   key: DBName
+            - name: SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: smtpcred
+                  key: SMTP_HOST
+            - name: SMTP_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: smtpcred
+                  key: SMTP_PORT
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: smtpcred
+                  key: SMTP_USER
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: smtpcred
+                  key: SMTP_PASSWORD
+            - name: SENDER_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: smtpcred
+                  key: SENDER_EMAIL
           ports:
             - name: http
               containerPort: 8080

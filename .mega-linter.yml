@@ -16,3 +16,10 @@ DISABLE_LINTERS:
 DISABLE:
   - COPYPASTE
   - SPELL
+PRE_COMMANDS:
+  - command: curl -sSL https://install.python-poetry.org | python -
+  - command: /root/.local/bin/poetry self add poetry-plugin-export
+  - command: /root/.local/bin/poetry export -f requirements.txt -o /tmp/requirements.txt --without-hashes
+    cwd: "workspace"
+  - command: pip install -r /tmp/requirements.txt
+    cwd: "workspace"
