@@ -18,19 +18,28 @@ ortelius-ms-validate-user
 
 ## Path Table
 
-| Method | Path                                         | Description  |
-|--------|----------------------------------------------|--------------|
-| GET    | [/health](#gethealth)                        | Health       |
-| GET    | [/msapi/validateuser](#getmsapivalidateuser) | Validateuser |
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | [/health](#gethealth) | Health |
+| GET | [/msapi/validateuser](#getmsapivalidateuser) | Validateuser |
+| GET | [/loginhelp](#getloginhelp) | Get Login Help Page |
+| POST | [/forgot-username](#postforgot-username) | Forgot Username |
+| POST | [/forgot-password](#postforgot-password) | Forgot Password |
+| GET | [/reset-password](#getreset-password) | Get Reset Password Page |
+| POST | [/reset-password](#postreset-password) | Reset Password |
 
 ## Reference Table
 
-| Name                | Path                                                                              | Description |
-|---------------------|-----------------------------------------------------------------------------------|-------------|
-| DomainList          | [#/components/schemas/DomainList](#componentsschemasdomainlist)                   |             |
-| HTTPValidationError | [#/components/schemas/HTTPValidationError](#componentsschemashttpvalidationerror) |             |
-| StatusMsg           | [#/components/schemas/StatusMsg](#componentsschemasstatusmsg)                     |             |
-| ValidationError     | [#/components/schemas/ValidationError](#componentsschemasvalidationerror)         |             |
+| Name | Path | Description |
+| --- | --- | --- |
+| DomainList | [#/components/schemas/DomainList](#componentsschemasdomainlist) |  |
+| ForgotPasswordPayload | [#/components/schemas/ForgotPasswordPayload](#componentsschemasforgotpasswordpayload) |  |
+| ForgotUsernamePayload | [#/components/schemas/ForgotUsernamePayload](#componentsschemasforgotusernamepayload) |  |
+| HTTPValidationError | [#/components/schemas/HTTPValidationError](#componentsschemashttpvalidationerror) |  |
+| Message | [#/components/schemas/Message](#componentsschemasmessage) |  |
+| ResetPasswordPayload | [#/components/schemas/ResetPasswordPayload](#componentsschemasresetpasswordpayload) |  |
+| StatusMsg | [#/components/schemas/StatusMsg](#componentsschemasstatusmsg) |  |
+| ValidationError | [#/components/schemas/ValidationError](#componentsschemasvalidationerror) |  |
 
 ## Path Details
 
@@ -38,11 +47,8 @@ ortelius-ms-validate-user
 
 ### [GET]/health
 
-- Summary
+- Summary  
 Health
-
-- Description
-This health check end point used by Kubernetes
 
 #### Responses
 
@@ -61,7 +67,7 @@ This health check end point used by Kubernetes
 
 ### [GET]/msapi/validateuser
 
-- Summary
+- Summary  
 Validateuser
 
 #### Parameters(Query)
@@ -96,6 +102,194 @@ domains?: Partial(string) & Partial(null)
 }
 ```
 
+***
+
+### [GET]/loginhelp
+
+- Summary  
+Get Login Help Page
+
+#### Responses
+
+- 200 Successful Response
+
+`text/html`
+
+```ts
+{
+  "type": "string"
+}
+```
+
+***
+
+### [POST]/forgot-username
+
+- Summary  
+Forgot Username
+
+#### RequestBody
+
+- application/json
+
+```ts
+{
+  email: string
+}
+```
+
+#### Responses
+
+- 200 Successful Response
+
+`application/json`
+
+```ts
+{
+  detail?: string
+}
+```
+
+- 422 Validation Error
+
+`application/json`
+
+```ts
+{
+  detail: {
+    loc?: Partial(string) & Partial(integer)[]
+    msg: string
+    type: string
+  }[]
+}
+```
+
+***
+
+### [POST]/forgot-password
+
+- Summary  
+Forgot Password
+
+#### RequestBody
+
+- application/json
+
+```ts
+{
+  username: string
+}
+```
+
+#### Responses
+
+- 200 Successful Response
+
+`application/json`
+
+```ts
+{
+  detail?: string
+}
+```
+
+- 422 Validation Error
+
+`application/json`
+
+```ts
+{
+  detail: {
+    loc?: Partial(string) & Partial(integer)[]
+    msg: string
+    type: string
+  }[]
+}
+```
+
+***
+
+### [GET]/reset-password
+
+- Summary  
+Get Reset Password Page
+
+#### Parameters(Query)
+
+```ts
+token: string
+```
+
+#### Responses
+
+- 200 Successful Response
+
+`text/html`
+
+```ts
+{
+  "type": "string"
+}
+```
+
+- 422 Validation Error
+
+`application/json`
+
+```ts
+{
+  detail: {
+    loc?: Partial(string) & Partial(integer)[]
+    msg: string
+    type: string
+  }[]
+}
+```
+
+***
+
+### [POST]/reset-password
+
+- Summary  
+Reset Password
+
+#### RequestBody
+
+- application/json
+
+```ts
+{
+  token: string
+  new_password: string
+}
+```
+
+#### Responses
+
+- 200 Successful Response
+
+`application/json`
+
+```ts
+{
+  detail?: string
+}
+```
+
+- 422 Validation Error
+
+`application/json`
+
+```ts
+{
+  detail: {
+    loc?: Partial(string) & Partial(integer)[]
+    msg: string
+    type: string
+  }[]
+}
+```
+
 ## References
 
 ### #/components/schemas/DomainList
@@ -103,6 +297,22 @@ domains?: Partial(string) & Partial(null)
 ```ts
 {
   domains?: integer[]
+}
+```
+
+### #/components/schemas/ForgotPasswordPayload
+
+```ts
+{
+  username: string
+}
+```
+
+### #/components/schemas/ForgotUsernamePayload
+
+```ts
+{
+  email: string
 }
 ```
 
@@ -115,6 +325,23 @@ domains?: Partial(string) & Partial(null)
     msg: string
     type: string
   }[]
+}
+```
+
+### #/components/schemas/Message
+
+```ts
+{
+  detail?: string
+}
+```
+
+### #/components/schemas/ResetPasswordPayload
+
+```ts
+{
+  token: string
+  new_password: string
 }
 ```
 
