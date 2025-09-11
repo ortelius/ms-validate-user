@@ -61,11 +61,15 @@ id_rsa_pub = os.getenv("RSA_FILE", "/app/keys/id_rsa.pub")
 # SENDER_EMAIL=your_email@gmail.com
 # SMTP_PASSWORD=your_gmail_app_password  (Note: Use an "App Password" for Gmail if 2FA is enabled)
 SMTP_HOST = os.getenv("SMTP_HOST", "")
-SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+SMTP_PORT = os.getenv("SMTP_PORT", "587")
 SMTP_USER = os.getenv("SMTP_USER", "")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
 SENDER_EMAIL = os.getenv("SENDER_EMAIL", "")
 
+if SMTP_PORT is None or SMTP_PORT == "":
+    SMTP_PORT = 587
+else:
+    SMTP_PORT = int(SMTP_PORT)
 
 public_key = ""
 if os.path.exists(id_rsa_pub):
