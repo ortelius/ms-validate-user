@@ -18,28 +18,28 @@ ortelius-ms-validate-user
 
 ## Path Table
 
-| Method | Path | Description |
-| --- | --- | --- |
-| GET | [/health](#gethealth) | Health |
-| GET | [/msapi/validateuser](#getmsapivalidateuser) | Validateuser |
-| GET | [/loginhelp](#getloginhelp) | Get Login Help Page |
-| POST | [/forgot-username](#postforgot-username) | Forgot Username |
-| POST | [/forgot-password](#postforgot-password) | Forgot Password |
-| GET | [/reset-password](#getreset-password) | Get Reset Password Page |
-| POST | [/reset-password](#postreset-password) | Reset Password |
+| Method | Path                                         | Description             |
+|--------|----------------------------------------------|-------------------------|
+| GET    | [/health](#gethealth)                        | Health                  |
+| GET    | [/msapi/validateuser](#getmsapivalidateuser) | Validateuser            |
+| GET    | [/loginhelp](#getloginhelp)                  | Get Login Help Page     |
+| POST   | [/forgot-username](#postforgot-username)     | Forgot Username         |
+| POST   | [/forgot-password](#postforgot-password)     | Forgot Password         |
+| GET    | [/reset-password](#getreset-password)        | Get Reset Password Page |
+| POST   | [/reset-password](#postreset-password)       | Reset Password          |
 
 ## Reference Table
 
-| Name | Path | Description |
-| --- | --- | --- |
-| DomainList | [#/components/schemas/DomainList](#componentsschemasdomainlist) |  |
-| ForgotPasswordPayload | [#/components/schemas/ForgotPasswordPayload](#componentsschemasforgotpasswordpayload) |  |
-| ForgotUsernamePayload | [#/components/schemas/ForgotUsernamePayload](#componentsschemasforgotusernamepayload) |  |
-| HTTPValidationError | [#/components/schemas/HTTPValidationError](#componentsschemashttpvalidationerror) |  |
-| Message | [#/components/schemas/Message](#componentsschemasmessage) |  |
-| ResetPasswordPayload | [#/components/schemas/ResetPasswordPayload](#componentsschemasresetpasswordpayload) |  |
-| StatusMsg | [#/components/schemas/StatusMsg](#componentsschemasstatusmsg) |  |
-| ValidationError | [#/components/schemas/ValidationError](#componentsschemasvalidationerror) |  |
+| Name                  | Path                                                                                  | Description |
+|-----------------------|---------------------------------------------------------------------------------------|-------------|
+| DomainList            | [#/components/schemas/DomainList](#componentsschemasdomainlist)                       |             |
+| ForgotPasswordPayload | [#/components/schemas/ForgotPasswordPayload](#componentsschemasforgotpasswordpayload) |             |
+| ForgotUsernamePayload | [#/components/schemas/ForgotUsernamePayload](#componentsschemasforgotusernamepayload) |             |
+| HTTPValidationError   | [#/components/schemas/HTTPValidationError](#componentsschemashttpvalidationerror)     |             |
+| Message               | [#/components/schemas/Message](#componentsschemasmessage)                             |             |
+| ResetPasswordPayload  | [#/components/schemas/ResetPasswordPayload](#componentsschemasresetpasswordpayload)   |             |
+| StatusMsg             | [#/components/schemas/StatusMsg](#componentsschemasstatusmsg)                         |             |
+| ValidationError       | [#/components/schemas/ValidationError](#componentsschemasvalidationerror)             |             |
 
 ## Path Details
 
@@ -47,7 +47,7 @@ ortelius-ms-validate-user
 
 ### [GET]/health
 
-- Summary  
+- Summary
 Health
 
 #### Responses
@@ -67,7 +67,7 @@ Health
 
 ### [GET]/msapi/validateuser
 
-- Summary  
+- Summary
 Validateuser
 
 #### Parameters(Query)
@@ -106,7 +106,7 @@ domains?: Partial(string) & Partial(null)
 
 ### [GET]/loginhelp
 
-- Summary  
+- Summary
 Get Login Help Page
 
 #### Responses
@@ -125,7 +125,7 @@ Get Login Help Page
 
 ### [POST]/forgot-username
 
-- Summary  
+- Summary
 Forgot Username
 
 #### RequestBody
@@ -168,7 +168,7 @@ Forgot Username
 
 ### [POST]/forgot-password
 
-- Summary  
+- Summary
 Forgot Password
 
 #### RequestBody
@@ -211,7 +211,7 @@ Forgot Password
 
 ### [GET]/reset-password
 
-- Summary  
+- Summary
 Get Reset Password Page
 
 #### Parameters(Query)
@@ -250,7 +250,7 @@ token: string
 
 ### [POST]/reset-password
 
-- Summary  
+- Summary
 Reset Password
 
 #### RequestBody

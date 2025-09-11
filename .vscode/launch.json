@@ -6,8 +6,7 @@
       "type": "python",
       "request": "launch",
       "program": "${file}",
-      "console": "integratedTerminal",
-      "env": { "SMTP_PORT": "123"}
+      "console": "integratedTerminal"
     }
   ]
 }
