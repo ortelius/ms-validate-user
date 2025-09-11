@@ -66,7 +66,7 @@ SMTP_USER = os.getenv("SMTP_USER", "")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
 SENDER_EMAIL = os.getenv("SENDER_EMAIL", "")
 
-if smtp_port_env is None or smtp_port_env == "":
+if smtp_port_env is None or smtp_port_env == "" or smtp_port_env == "<nil>":
     SMTP_PORT = 587
 else:
     SMTP_PORT = int(smtp_port_env)
