@@ -547,7 +547,7 @@ async def forgot_username(payload: ForgotUsernamePayload, background_tasks: Back
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Email service is not configured.")
 
     with engine.connect() as conn:
-        sql = text("SELECT name FROM dm.dm_user WHERE email = :email LIMIT 1")
+        sql = text("SELECT name FROM dm.dm_user WHERE email = :email and status = 'N' LIMIT 1")
         result = conn.execute(sql, {"email": payload.email}).fetchone()
         if result:
             username = result[0]
@@ -563,7 +563,7 @@ async def forgot_password(payload: ForgotPasswordPayload, background_tasks: Back
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Email service is not configured.")
 
     with engine.connect() as conn:
-        sql = text("SELECT email FROM dm.dm_user WHERE name = :username LIMIT 1")
+        sql = text("SELECT email FROM dm.dm_user WHERE name = :username and status = 'N' LIMIT 1")
         result = conn.execute(sql, {"username": payload.username}).fetchone()
         if result:
             email = result[0]
