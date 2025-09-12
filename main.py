@@ -81,7 +81,7 @@ engine = create_engine(
 )
 
 # JWT secret for password reset tokens (different from login tokens!)
-RESET_SECRET_KEY = os.getenv("RESET_SECRET_KEY", "change-this-secret")
+RESET_SECRET_KEY = os.getenv("RESET_KEY", "")
 RESET_ALGORITHM = "HS256"
 RESET_TOKEN_EXPIRE_MINUTES = 30
 
