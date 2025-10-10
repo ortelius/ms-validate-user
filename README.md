@@ -50,13 +50,16 @@ ortelius-ms-validate-user
 - Summary  
 Health
 
+- Operation id  
+health_health_get
+
 #### Responses
 
 - 200 Successful Response
 
 `application/json`
 
-```ts
+```typescript
 {
   status?: string
   service_name?: string
@@ -70,9 +73,12 @@ Health
 - Summary  
 Validateuser
 
+- Operation id  
+validateuser_msapi_validateuser_get
+
 #### Parameters(Query)
 
-```ts
+```typescript
 domains?: Partial(string) & Partial(null)
 ```
 
@@ -82,7 +88,7 @@ domains?: Partial(string) & Partial(null)
 
 `application/json`
 
-```ts
+```typescript
 {
   domains?: integer[]
 }
@@ -92,7 +98,7 @@ domains?: Partial(string) & Partial(null)
 
 `application/json`
 
-```ts
+```typescript
 {
   detail: {
     loc?: Partial(string) & Partial(integer)[]
@@ -109,13 +115,16 @@ domains?: Partial(string) & Partial(null)
 - Summary  
 Get Login Help Page
 
+- Operation id  
+get_login_help_page_loginhelp_get
+
 #### Responses
 
 - 200 Successful Response
 
 `text/html`
 
-```ts
+```typescript
 {
   "type": "string"
 }
@@ -128,11 +137,14 @@ Get Login Help Page
 - Summary  
 Forgot Username
 
+- Operation id  
+forgot_username_forgot_username_post
+
 #### RequestBody
 
 - application/json
 
-```ts
+```typescript
 {
   email: string
 }
@@ -144,7 +156,7 @@ Forgot Username
 
 `application/json`
 
-```ts
+```typescript
 {
   detail?: string
 }
@@ -154,7 +166,7 @@ Forgot Username
 
 `application/json`
 
-```ts
+```typescript
 {
   detail: {
     loc?: Partial(string) & Partial(integer)[]
@@ -171,11 +183,14 @@ Forgot Username
 - Summary  
 Forgot Password
 
+- Operation id  
+forgot_password_forgot_password_post
+
 #### RequestBody
 
 - application/json
 
-```ts
+```typescript
 {
   username: string
 }
@@ -187,7 +202,7 @@ Forgot Password
 
 `application/json`
 
-```ts
+```typescript
 {
   detail?: string
 }
@@ -197,7 +212,7 @@ Forgot Password
 
 `application/json`
 
-```ts
+```typescript
 {
   detail: {
     loc?: Partial(string) & Partial(integer)[]
@@ -214,9 +229,12 @@ Forgot Password
 - Summary  
 Get Reset Password Page
 
+- Operation id  
+get_reset_password_page_reset_password_get
+
 #### Parameters(Query)
 
-```ts
+```typescript
 token: string
 ```
 
@@ -226,7 +244,7 @@ token: string
 
 `text/html`
 
-```ts
+```typescript
 {
   "type": "string"
 }
@@ -236,7 +254,7 @@ token: string
 
 `application/json`
 
-```ts
+```typescript
 {
   detail: {
     loc?: Partial(string) & Partial(integer)[]
@@ -253,11 +271,14 @@ token: string
 - Summary  
 Reset Password
 
+- Operation id  
+reset_password_reset_password_post
+
 #### RequestBody
 
 - application/json
 
-```ts
+```typescript
 {
   token: string
   new_password: string
@@ -270,7 +291,7 @@ Reset Password
 
 `application/json`
 
-```ts
+```typescript
 {
   detail?: string
 }
@@ -280,7 +301,7 @@ Reset Password
 
 `application/json`
 
-```ts
+```typescript
 {
   detail: {
     loc?: Partial(string) & Partial(integer)[]
@@ -294,7 +315,7 @@ Reset Password
 
 ### #/components/schemas/DomainList
 
-```ts
+```typescript
 {
   domains?: integer[]
 }
@@ -302,7 +323,7 @@ Reset Password
 
 ### #/components/schemas/ForgotPasswordPayload
 
-```ts
+```typescript
 {
   username: string
 }
@@ -310,7 +331,7 @@ Reset Password
 
 ### #/components/schemas/ForgotUsernamePayload
 
-```ts
+```typescript
 {
   email: string
 }
@@ -318,7 +339,7 @@ Reset Password
 
 ### #/components/schemas/HTTPValidationError
 
-```ts
+```typescript
 {
   detail: {
     loc?: Partial(string) & Partial(integer)[]
@@ -330,7 +351,7 @@ Reset Password
 
 ### #/components/schemas/Message
 
-```ts
+```typescript
 {
   detail?: string
 }
@@ -338,7 +359,7 @@ Reset Password
 
 ### #/components/schemas/ResetPasswordPayload
 
-```ts
+```typescript
 {
   token: string
   new_password: string
@@ -347,7 +368,7 @@ Reset Password
 
 ### #/components/schemas/StatusMsg
 
-```ts
+```typescript
 {
   status?: string
   service_name?: string
@@ -356,7 +377,7 @@ Reset Password
 
 ### #/components/schemas/ValidationError
 
-```ts
+```typescript
 {
   loc?: Partial(string) & Partial(integer)[]
   msg: string
