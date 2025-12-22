@@ -18,28 +18,28 @@ ortelius-ms-validate-user
 
 ## Path Table
 
-| Method | Path                                         | Description             |
-|--------|----------------------------------------------|-------------------------|
-| GET    | [/health](#gethealth)                        | Health                  |
-| GET    | [/msapi/validateuser](#getmsapivalidateuser) | Validateuser            |
-| GET    | [/loginhelp](#getloginhelp)                  | Get Login Help Page     |
-| POST   | [/forgot-username](#postforgot-username)     | Forgot Username         |
-| POST   | [/forgot-password](#postforgot-password)     | Forgot Password         |
-| GET    | [/reset-password](#getreset-password)        | Get Reset Password Page |
-| POST   | [/reset-password](#postreset-password)       | Reset Password          |
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | [/health](#gethealth) | Health |
+| GET | [/msapi/validateuser](#getmsapivalidateuser) | Validateuser |
+| GET | [/loginhelp](#getloginhelp) | Get Login Help Page |
+| POST | [/forgot-username](#postforgot-username) | Forgot Username |
+| POST | [/forgot-password](#postforgot-password) | Forgot Password |
+| GET | [/reset-password](#getreset-password) | Get Reset Password Page |
+| POST | [/reset-password](#postreset-password) | Reset Password |
 
 ## Reference Table
 
-| Name                  | Path                                                                                  | Description |
-|-----------------------|---------------------------------------------------------------------------------------|-------------|
-| DomainList            | [#/components/schemas/DomainList](#componentsschemasdomainlist)                       |             |
-| ForgotPasswordPayload | [#/components/schemas/ForgotPasswordPayload](#componentsschemasforgotpasswordpayload) |             |
-| ForgotUsernamePayload | [#/components/schemas/ForgotUsernamePayload](#componentsschemasforgotusernamepayload) |             |
-| HTTPValidationError   | [#/components/schemas/HTTPValidationError](#componentsschemashttpvalidationerror)     |             |
-| Message               | [#/components/schemas/Message](#componentsschemasmessage)                             |             |
-| ResetPasswordPayload  | [#/components/schemas/ResetPasswordPayload](#componentsschemasresetpasswordpayload)   |             |
-| StatusMsg             | [#/components/schemas/StatusMsg](#componentsschemasstatusmsg)                         |             |
-| ValidationError       | [#/components/schemas/ValidationError](#componentsschemasvalidationerror)             |             |
+| Name | Path | Description |
+| --- | --- | --- |
+| DomainList | [#/components/schemas/DomainList](#componentsschemasdomainlist) |  |
+| ForgotPasswordPayload | [#/components/schemas/ForgotPasswordPayload](#componentsschemasforgotpasswordpayload) |  |
+| ForgotUsernamePayload | [#/components/schemas/ForgotUsernamePayload](#componentsschemasforgotusernamepayload) |  |
+| HTTPValidationError | [#/components/schemas/HTTPValidationError](#componentsschemashttpvalidationerror) |  |
+| Message | [#/components/schemas/Message](#componentsschemasmessage) |  |
+| ResetPasswordPayload | [#/components/schemas/ResetPasswordPayload](#componentsschemasresetpasswordpayload) |  |
+| StatusMsg | [#/components/schemas/StatusMsg](#componentsschemasstatusmsg) |  |
+| ValidationError | [#/components/schemas/ValidationError](#componentsschemasvalidationerror) |  |
 
 ## Path Details
 
